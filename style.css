@@ -1,0 +1,30 @@
+.grid-container {
+    display: grid; /* Use CSS grid property */
+    grid-template-columns: repeat(3, 1fr); /* Define the number of columns and their width */
+    gap: 10px; /* Add some spacing between grid items */
+    margin: 50px;
+    overflow: hidden;
+
+;
+}
+
+.grid-item {
+    background-color: #a9a9a9;
+    color: #424242;
+    padding: 5px;
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    
+}
+
+* body {
+    background-color: 	#dddddd;
+    font-family: 'raleway',sans-serif;
+}
+
+.h1{
+    margin-left: 50%;
+    font-family: 'raleway',sans-serif;
+}
+
