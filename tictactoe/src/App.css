@@ -1,9 +1,8 @@
 * body {
   font-family: "Oswald", sans-serif;
-  margin: 200;
+  margin: 30px;
+  margin-top: 0px;
   background-color: #5f5f5f;
-  
+  color: white;
 }
-App-header {
-  margin-left: 200;
-}
+
