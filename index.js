@@ -89,7 +89,6 @@ if(clickCount===9 && checkWinner(grid)== null){
     document.getElementById("title").style.textAlign = "center";
     document.getElementById("title").style.fontSize = "50px";
     document.getElementById("title").style.margin = "10px";
-    document.getElementsByClassName("grid'item").style.color = "red"
     }
 };
 
