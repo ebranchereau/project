@@ -13,7 +13,7 @@ let index : number = 0;
 
 
 function classTogglerComputer() {
-
+    // TODO : Make buttons to choose between random and best move
     if(this.textContent === "" && winnerValue === null && turn){
         this.textContent='X';
         index = 1 - index;
@@ -46,6 +46,7 @@ function classTogglerComputer() {
         clickCount++
         turn = true
     }
+    // TODO : Make an algortihm that can play the best moves
     
     var val1 = document.getElementById('1')!.innerText
     var val2 = document.getElementById('2')!.innerText
@@ -125,4 +126,6 @@ function classTogglerComputer() {
         document.getElementById("title")!.style.margin = "10px";
         }
 };
+
+//TODO : Make a play again button (Concerns all the ts files)
 
