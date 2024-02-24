@@ -7,7 +7,7 @@ Array.from(divs).forEach(div => {
 });
 
 var clickCount : number = 0
-var winnerValue : [number,number,number]  = [0,0,0]
+var winnerValue : [number,number,number] | null = null;
 const text : [string,string] = ['X','O']
 let index : number = 0;
 
@@ -77,8 +77,8 @@ console.log(clickCount);
 
 if (checkWinner(grid) !== null){
     console.log(checkWinner(grid)+" won!")
-    for (let i = 0; i < winnerValue.length; i++) {
-        document.getElementById(winnerValue[i].toString())!.style.color = "white" 
+    for (let i = 0; i < winnerValue!.length; i++) {
+        document.getElementById(winnerValue![i].toString())!.style.color = "white" 
     }
     document.getElementById("title")!.textContent="Player "+checkWinner(grid)+" won TicTacToe!"
     document.getElementById("title")!.style.textAlign = "center";

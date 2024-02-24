@@ -1,9 +1,11 @@
+"use strict";
+
 var divs = document.querySelectorAll('.grid-item');
 Array.from(divs).forEach(function (div) {
     div.addEventListener('click', classToggler);
 });
 var clickCount = 0;
-var winnerValue = [0, 0, 0];
+var winnerValue = null;
 var text = ['X', 'O'];
 var index = 0;
 function classToggler() {
