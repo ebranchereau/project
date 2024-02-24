@@ -1,18 +1,42 @@
 "use strict";
-
 var divs = document.querySelectorAll('.grid-item');
 Array.from(divs).forEach(function (div) {
-    div.addEventListener('click', classToggler);
+    div.addEventListener('click', classTogglerComputer);
 });
+var turn = true;
 var clickCount = 0;
 var winnerValue = null;
 var text = ['X', 'O'];
 var index = 0;
-function classToggler() {
-    if (this.textContent === "" && winnerValue === null) {
-        this.textContent = text[index];
+function classTogglerComputer() {
+    if (this.textContent === "" && winnerValue === null && turn) {
+        this.textContent = 'X';
         index = 1 - index;
         clickCount++;
+        turn = false;
+    }
+    var val1 = document.getElementById('1').innerText;
+    var val2 = document.getElementById('2').innerText;
+    var val3 = document.getElementById('3').innerText;
+    var val4 = document.getElementById('4').innerText;
+    var val5 = document.getElementById('5').innerText;
+    var val6 = document.getElementById('6').innerText;
+    var val7 = document.getElementById('7').innerText;
+    var val8 = document.getElementById('8').innerText;
+    var val9 = document.getElementById('9').innerText;
+    var grid = [
+        val1, val2, val3,
+        val4, val5, val6,
+        val7, val8, val9
+    ];
+    if (winnerValue === null && !turn && clickCount !== 9) {
+        var i = Math.floor(Math.random() * 8);
+        while (grid[i] !== "") {
+            i = Math.floor(Math.random() * 8);
+        }
+        document.getElementById((i+1).toString()).innerText = 'O';
+        clickCount++;
+        turn = true;
     }
     var val1 = document.getElementById('1').innerText;
     var val2 = document.getElementById('2').innerText;
@@ -73,10 +97,15 @@ function classToggler() {
     console.log(clickCount);
     if (checkWinner(grid) !== null) {
         console.log(checkWinner(grid) + " won!");
-        for (var i = 0; i < winnerValue.length; i++) {
-            document.getElementById(winnerValue[i].toString()).style.color = "black";
+        for (var i_1 = 0; i_1 < winnerValue.length; i_1++) {
+            document.getElementById(winnerValue[i_1].toString()).style.color = "black";
         }
-        document.getElementById("title").textContent = "Player " + checkWinner(grid) + " won!";
+        if (checkWinner(grid) == 'X') {
+            document.getElementById("title").textContent = "You won!";
+        }
+        else if (checkWinner(grid) == 'O') {
+            document.getElementById("title").textContent = "Computer won!";
+        }
         document.getElementById("title").style.textAlign = "center";
         document.getElementById("title").style.fontSize = "50px";
         document.getElementById("title").style.margin = "10px";
