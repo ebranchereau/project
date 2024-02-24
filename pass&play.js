@@ -1,5 +1,4 @@
 "use strict";
-
 var divs = document.querySelectorAll('.grid-item');
 Array.from(divs).forEach(function (div) {
     div.addEventListener('click', classToggler);
@@ -74,9 +73,9 @@ function classToggler() {
     if (checkWinner(grid) !== null) {
         console.log(checkWinner(grid) + " won!");
         for (var i = 0; i < winnerValue.length; i++) {
-            document.getElementById(winnerValue[i].toString()).style.color = "white";
+            document.getElementById(winnerValue[i].toString()).style.color = "black";
         }
-        document.getElementById("title").textContent = "Player " + checkWinner(grid) + " won TicTacToe!";
+        document.getElementById("title").textContent = "Player " + checkWinner(grid) + " won!";
         document.getElementById("title").style.textAlign = "center";
         document.getElementById("title").style.fontSize = "50px";
         document.getElementById("title").style.margin = "10px";
