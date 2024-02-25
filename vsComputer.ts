@@ -13,7 +13,7 @@ let index : number = 0;
 
 
 function classTogglerComputer() {
-    // TODO : Make buttons to choose between random and best move
+    // TODO : Make buttons to choose between random and best move Low importance and fast to do (if we have the algo)
     if(this.textContent === "" && winnerValue === null && turn){
         this.textContent='X';
         index = 1 - index;
@@ -127,5 +127,5 @@ function classTogglerComputer() {
         }
 };
 
-//TODO : Make a play again button (Concerns all the ts files)
+//TODO : Make a play again button (Concerns all the ts files) low importance and fast todo
 
