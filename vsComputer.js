@@ -1,13 +1,24 @@
 "use strict";
 var divs = document.querySelectorAll('.grid-item');
-Array.from(divs).forEach(function (div) {
-    div.addEventListener('click', classTogglerComputer);
-});
+var moveButton = document.getElementById('moveButton');
+var playAgainButton = document.getElementById('playAgain');
+var title = document.getElementById('title');
+var moveMode = 0; // 0 for random move, 1 for best move
 var turn = true;
 var clickCount = 0;
 var winnerValue = null;
 var text = ['X', 'O'];
 var index = 0;
+moveButton.addEventListener('click', function (e) {
+    moveMode = 1 - moveMode;
+    moveButton.innerText = moveMode === 1 ? 'Best' : 'Random';
+});
+divs.forEach(function (div) {
+    div.addEventListener('click', classTogglerComputer);
+});
+playAgainButton.addEventListener('click', function (e) {
+    resetGame();
+});
 function classTogglerComputer() {
     if (this.textContent === "" && winnerValue === null && turn) {
         this.textContent = 'X';
@@ -15,106 +26,129 @@ function classTogglerComputer() {
         clickCount++;
         turn = false;
     }
-    var val1 = document.getElementById('1').innerText;
-    var val2 = document.getElementById('2').innerText;
-    var val3 = document.getElementById('3').innerText;
-    var val4 = document.getElementById('4').innerText;
-    var val5 = document.getElementById('5').innerText;
-    var val6 = document.getElementById('6').innerText;
-    var val7 = document.getElementById('7').innerText;
-    var val8 = document.getElementById('8').innerText;
-    var val9 = document.getElementById('9').innerText;
-    var grid = [
-        val1, val2, val3,
-        val4, val5, val6,
-        val7, val8, val9
-    ];
+    var grid = getCurrentGridState();
     if (winnerValue === null && !turn && clickCount !== 9) {
-        var i = Math.floor(Math.random() * 8);
-        while (grid[i] !== "") {
-            i = Math.floor(Math.random() * 8);
+        if (moveMode === 1) {
+            bestMove(grid);
         }
-        document.getElementById((i+1).toString()).innerText = 'O';
+        else {
+            randomMove(grid);
+        }
+    }
+    checkGameState(grid);
+}
+function randomMove(grid) {
+    var i = Math.floor(Math.random() * 9);
+    while (grid[i] !== "") {
+        i = Math.floor(Math.random() * 9);
+    }
+    document.getElementById((i + 1).toString()).innerText = 'O';
+    clickCount++;
+    turn = true;
+}
+function bestMove(grid) {
+    var bestScore = -Infinity;
+    var move = null;
+    for (var i = 0; i < 9; i++) {
+        if (grid[i] === '') {
+            grid[i] = 'O';
+            var score = minimax(grid, 0, false);
+            grid[i] = '';
+            if (score > bestScore) {
+                bestScore = score;
+                move = i;
+            }
+        }
+    }
+    if (move !== null) {
+        document.getElementById((move + 1).toString()).innerText = 'O';
         clickCount++;
         turn = true;
     }
-    var val1 = document.getElementById('1').innerText;
-    var val2 = document.getElementById('2').innerText;
-    var val3 = document.getElementById('3').innerText;
-    var val4 = document.getElementById('4').innerText;
-    var val5 = document.getElementById('5').innerText;
-    var val6 = document.getElementById('6').innerText;
-    var val7 = document.getElementById('7').innerText;
-    var val8 = document.getElementById('8').innerText;
-    var val9 = document.getElementById('9').innerText;
-    var grid = [
-        val1, val2, val3,
-        val4, val5, val6,
-        val7, val8, val9
-    ];
-    console.log(winnerValue);
-    // horizontal 123,456,789
-    // vertical 147,258,369
-    // diagonal 159,357
-    function checkWinner(grid) {
-        if (val1 === val2 && val2 === val3 && val1 !== "") {
-            winnerValue = [1, 2, 3];
-            return val1;
-        }
-        else if (val4 === val5 && val5 === val6 && val4 !== "") {
-            winnerValue = [4, 5, 6];
-            return val4;
-        }
-        else if (val7 === val8 && val8 === val9 && val7 !== "") {
-            winnerValue = [7, 8, 9];
-            return val7;
-        }
-        else if (val1 === val4 && val7 === val4 && val1 !== "") {
-            winnerValue = [1, 4, 7];
-            return val1;
-        }
-        else if (val2 === val5 && val5 === val8 && val2 !== "") {
-            winnerValue = [2, 5, 8];
-            return val2;
-        }
-        else if (val3 === val6 && val6 === val9 && val3 !== "") {
-            winnerValue = [3, 6, 9];
-            return val3;
-        }
-        else if (val1 === val5 && val5 === val9 && val1 !== "") {
-            winnerValue = [1, 5, 9];
-            return val1;
-        }
-        else if (val3 === val5 && val5 === val7 && val3 !== "") {
-            winnerValue = [3, 5, 7];
-            return val3;
-        }
-        else {
-            return null;
-        }
+}
+function getCurrentGridState() {
+    var grid = [];
+    for (var i = 1; i <= 9; i++) {
+        grid.push(document.getElementById(i.toString()).innerText);
     }
-    console.log(checkWinner(grid));
-    console.log(clickCount);
-    if (checkWinner(grid) !== null) {
-        console.log(checkWinner(grid) + " won!");
-        for (var i_1 = 0; i_1 < winnerValue.length; i_1++) {
-            document.getElementById(winnerValue[i_1].toString()).style.color = "black";
-        }
-        if (checkWinner(grid) == 'X') {
-            document.getElementById("title").textContent = "You won!";
-        }
-        else if (checkWinner(grid) == 'O') {
-            document.getElementById("title").textContent = "Computer won!";
-        }
-        document.getElementById("title").style.textAlign = "center";
-        document.getElementById("title").style.fontSize = "50px";
-        document.getElementById("title").style.margin = "10px";
+    return grid;
+}
+function checkGameState(grid) {
+    var result = checkWinner(grid);
+    if (result) {
+        endGame(result);
     }
-    if (clickCount === 9 && checkWinner(grid) == null) {
-        document.getElementById("title").textContent = "Draw!";
-        document.getElementById("title").style.textAlign = "center";
-        document.getElementById("title").style.fontSize = "50px";
-        document.getElementById("title").style.margin = "10px";
+    else if (clickCount === 9) {
+        endGame('draw');
     }
 }
-;
+function resetGame() {
+    divs.forEach(function (div) {
+        div.textContent = "";
+    });
+    winnerValue = null;
+    clickCount = 0;
+    turn = true;
+    title.textContent = "You vs Computer";
+}
+function endGame(result) {
+    winnerValue = result;
+    if (result === 'X') {
+        title.textContent = "You won!";
+    }
+    else if (result === 'O') {
+        title.textContent = "Computer won!";
+    }
+    else {
+        title.textContent = "Draw!";
+    }
+}
+function minimax(grid, depth, isMaximizing) {
+    var result = checkWinner(grid);
+    if (result !== null) {
+        return scores[result];
+    }
+    if (isMaximizing) {
+        var bestScore = -Infinity;
+        for (var i = 0; i < 9; i++) {
+            if (grid[i] === '') {
+                grid[i] = 'O';
+                var score = minimax(grid, depth + 1, false);
+                grid[i] = '';
+                bestScore = Math.max(score, bestScore);
+            }
+        }
+        return bestScore;
+    }
+    else {
+        var bestScore = Infinity;
+        for (var i = 0; i < 9; i++) {
+            if (grid[i] === '') {
+                grid[i] = 'X';
+                var score = minimax(grid, depth + 1, true);
+                grid[i] = '';
+                bestScore = Math.min(score, bestScore);
+            }
+        }
+        return bestScore;
+    }
+}
+function checkWinner(grid) {
+    for (var i = 0; i < WINNING_COMBINATIONS.length; i++) {
+        var _a = WINNING_COMBINATIONS[i], a = _a[0], b = _a[1], c = _a[2];
+        if (grid[a] && grid[a] === grid[b] && grid[a] === grid[c]) {
+            return grid[a];
+        }
+    }
+    return grid.includes('') ? null : 'draw';
+}
+var scores = {
+    'X': -10,
+    'O': 10,
+    'draw': 0
+};
+var WINNING_COMBINATIONS = [
+    [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+    [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+    [0, 4, 8], [2, 4, 6] // Diagonals
+];

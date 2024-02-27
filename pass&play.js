@@ -1,5 +1,4 @@
 "use strict";
-
 var divs = document.querySelectorAll('.grid-item');
 Array.from(divs).forEach(function (div) {
     div.addEventListener('click', classToggler);
@@ -8,6 +7,23 @@ var clickCount = 0;
 var winnerValue = null;
 var text = ['X', 'O'];
 var index = 0;
+var title = document.getElementById('title');
+var playAgainButton = document.getElementById('playAgain');
+playAgainButton.addEventListener('click', function (e) {
+    resetGame();
+});
+function resetGame() {
+    divs.forEach(function (div) {
+        div.textContent = "";
+    });
+    for (var i = 1; i < 10; i++) {
+        document.getElementById(i.toString()).style.color = '#D7CEB2';
+    }
+    winnerValue = null;
+    clickCount = 0;
+    index = 0;
+    title.textContent = "Pass & Play";
+}
 function classToggler() {
     if (this.textContent === "" && winnerValue === null) {
         this.textContent = text[index];
@@ -33,37 +49,45 @@ function classToggler() {
     // vertical 147,258,369
     // diagonal 159,357
     function checkWinner(grid) {
-        if (val1 === val2 && val2 === val3 && val1 !== "") {
+        for (var i = 0; i < 11; i++) {
+            if (i === 9) {
+                return 'draw';
+            }
+            if (grid[i] !== "") {
+                break;
+            }
+        }
+        if (grid[0] === grid[1] && grid[1] === grid[2] && grid[0] !== "") {
             winnerValue = [1, 2, 3];
-            return val1;
+            return grid[0];
         }
-        else if (val4 === val5 && val5 === val6 && val4 !== "") {
+        else if (grid[3] === grid[4] && grid[4] === grid[5] && grid[3] !== "") {
             winnerValue = [4, 5, 6];
-            return val4;
+            return grid[3];
         }
-        else if (val7 === val8 && val8 === val9 && val7 !== "") {
+        else if (grid[6] === grid[7] && grid[7] === grid[8] && grid[6] !== "") {
             winnerValue = [7, 8, 9];
-            return val7;
+            return grid[6];
         }
-        else if (val1 === val4 && val7 === val4 && val1 !== "") {
+        else if (grid[0] === grid[3] && grid[6] === grid[3] && grid[0] !== "") {
             winnerValue = [1, 4, 7];
-            return val1;
+            return grid[0];
         }
-        else if (val2 === val5 && val5 === val8 && val2 !== "") {
+        else if (grid[1] === grid[4] && grid[4] === grid[7] && grid[1] !== "") {
             winnerValue = [2, 5, 8];
-            return val2;
+            return grid[1];
         }
-        else if (val3 === val6 && val6 === val9 && val3 !== "") {
+        else if (grid[2] === grid[5] && grid[5] === grid[8] && grid[2] !== "") {
             winnerValue = [3, 6, 9];
-            return val3;
+            return grid[2];
         }
-        else if (val1 === val5 && val5 === val9 && val1 !== "") {
+        else if (grid[0] === grid[4] && grid[4] === grid[8] && grid[0] !== "") {
             winnerValue = [1, 5, 9];
-            return val1;
+            return grid[0];
         }
-        else if (val3 === val5 && val5 === val7 && val3 !== "") {
+        else if (grid[2] === grid[4] && grid[4] === grid[6] && grid[2] !== "") {
             winnerValue = [3, 5, 7];
-            return val3;
+            return grid[2];
         }
         else {
             return null;
@@ -89,3 +113,4 @@ function classToggler() {
     }
 }
 ;
+//TODO : make play again button (all ts files concerned)

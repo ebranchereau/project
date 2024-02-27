@@ -33,6 +33,7 @@
     font-family: 'raleway',sans-serif;
     color: black;
 
+
 }
 
 button {
@@ -63,3 +64,9 @@ button:hover {
     margin-top: 30px;
 }
 
+#moveButton {
+    max-height: 100px;
+}
+
+
+/* TODO : make different ids and colors for the buttons */
