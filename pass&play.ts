@@ -108,19 +108,22 @@ if (checkWinner(grid) !== null){
     for (let i = 0; i < winnerValue!.length; i++) {
         document.getElementById(winnerValue![i].toString())!.style.color = "black" 
     }
-    document.getElementById("title")!.textContent="Player "+checkWinner(grid)+" won!"
-    document.getElementById("title")!.style.textAlign = "center";
-    document.getElementById("title")!.style.fontSize = "50px";
-    document.getElementById("title")!.style.margin = "10px";
+    title.textContent="Player "+checkWinner(grid)+" won!"
+    title.style.textAlign = "center";
+    title.style.fontSize = "50px";
+    title.style.margin = "10px";
 }
 
 if(clickCount===9 && checkWinner(grid)== null){
-    document.getElementById("title")!.textContent="Draw!"
-    document.getElementById("title")!.style.textAlign = "center";
-    document.getElementById("title")!.style.fontSize = "50px";
-    document.getElementById("title")!.style.margin = "10px";
+    title.textContent="Draw!"
+    title.style.textAlign = "center";
+    title.style.fontSize = "50px";
+    title.style.margin = "10px";
     }
 
 };
 //TODO : make play again button (all ts files concerned)
+
+
+
 

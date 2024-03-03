@@ -1,0 +1,15 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "Made by **Markus Lindell** and **Elias Branchereau**. It is a simple TicTacToe game in which you can play in **Pass & Play** or against the **computer**. We have the choice between random placements and the best placement by the computer.",
+  "main": "pass&play.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

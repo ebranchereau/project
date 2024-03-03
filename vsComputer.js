@@ -1,4 +1,6 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.checkWinner = void 0;
 var divs = document.querySelectorAll('.grid-item');
 var moveButton = document.getElementById('moveButton');
 var playAgainButton = document.getElementById('playAgain');
@@ -27,6 +29,7 @@ function classTogglerComputer() {
         turn = false;
     }
     var grid = getCurrentGridState();
+    checkGameState(grid);
     if (winnerValue === null && !turn && clickCount !== 9) {
         if (moveMode === 1) {
             bestMove(grid);
@@ -62,8 +65,10 @@ function bestMove(grid) {
     }
     if (move !== null) {
         document.getElementById((move + 1).toString()).innerText = 'O';
+        checkGameState(grid);
         clickCount++;
         turn = true;
+        checkGameState(grid);
     }
 }
 function getCurrentGridState() {
@@ -102,6 +107,9 @@ function endGame(result) {
     else {
         title.textContent = "Draw!";
     }
+    title.style.textAlign = "center";
+    title.style.fontSize = "50px";
+    title.style.margin = "10px";
 }
 function minimax(grid, depth, isMaximizing) {
     var result = checkWinner(grid);
@@ -136,12 +144,13 @@ function minimax(grid, depth, isMaximizing) {
 function checkWinner(grid) {
     for (var i = 0; i < WINNING_COMBINATIONS.length; i++) {
         var _a = WINNING_COMBINATIONS[i], a = _a[0], b = _a[1], c = _a[2];
-        if (grid[a] && grid[a] === grid[b] && grid[a] === grid[c]) {
+        if (grid[a] !== '' && grid[a] === grid[b] && grid[a] === grid[c]) {
             return grid[a];
         }
     }
     return grid.includes('') ? null : 'draw';
 }
+exports.checkWinner = checkWinner;
 var scores = {
     'X': -10,
     'O': 10,

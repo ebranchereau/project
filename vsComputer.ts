@@ -1,7 +1,5 @@
-
-
 "use strict";
-
+export{};
 const divs = document.querySelectorAll('.grid-item');
 const moveButton = document.getElementById('moveButton')!;
 const playAgainButton = document.getElementById('playAgain')!;
@@ -10,7 +8,7 @@ const title = document.getElementById('title')!;
 let moveMode = 0; // 0 for random move, 1 for best move
 let turn: boolean = true;
 let clickCount: number = 0;
-let winnerValue: string | [number, number, number] | null = null;
+let winnerValue: string | null = null;
 const text: [string, string] = ['X', 'O'];
 let index: number = 0;
 
@@ -28,6 +26,7 @@ playAgainButton.addEventListener('click', e => {
 });
 
 function classTogglerComputer(this: any) {
+    
     if (this.textContent === "" && winnerValue === null && turn) {
         this.textContent = 'X';
         index = 1 - index;
@@ -36,6 +35,8 @@ function classTogglerComputer(this: any) {
     }
 
     const grid = getCurrentGridState();
+
+    checkGameState(grid);
 
     if (winnerValue === null && !turn && clickCount !== 9) {
         if (moveMode === 1) {
@@ -74,8 +75,10 @@ function bestMove(grid: string[]) {
     }
     if (move !== null) {
         document.getElementById((move + 1).toString())!.innerText = 'O';
+        checkGameState(grid);
         clickCount++;
         turn = true;
+        checkGameState(grid);
     }
 }
 
@@ -108,13 +111,18 @@ function resetGame() {
 
 function endGame(result: string) {
     winnerValue = result;
+    
     if (result === 'X') {
         title.textContent = "You won!";
+        
     } else if (result === 'O') {
         title.textContent = "Computer won!";
     } else {
         title.textContent = "Draw!";
     }
+    title.style.textAlign = "center";
+    title.style.fontSize = "50px";
+    title.style.margin = "10px";
 }
 
 function minimax(grid: string[], depth: number, isMaximizing: boolean): number {
@@ -147,10 +155,10 @@ function minimax(grid: string[], depth: number, isMaximizing: boolean): number {
     }
 }
 
-function checkWinner(grid: string[]): string | null {
+export function checkWinner(grid: string[]): string | null {
     for (let i = 0; i < WINNING_COMBINATIONS.length; i++) {
         const [a, b, c] = WINNING_COMBINATIONS[i];
-        if (grid[a] && grid[a] === grid[b] && grid[a] === grid[c]) {
+        if (grid[a] !== '' && grid[a] === grid[b] && grid[a] === grid[c]) {
             return grid[a];
         }
     }
@@ -168,4 +176,5 @@ const WINNING_COMBINATIONS: number[][] = [
     [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
     [0, 4, 8], [2, 4, 6]              // Diagonals
 ];
+
 
