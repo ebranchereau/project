@@ -1,6 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkWinner = void 0;
 var divs = document.querySelectorAll('.grid-item');
 var moveButton = document.getElementById('moveButton');
 var playAgainButton = document.getElementById('playAgain');
@@ -37,6 +35,7 @@ function classTogglerComputer() {
         else {
             randomMove(grid);
         }
+        
     }
     checkGameState(grid);
 }
@@ -150,7 +149,7 @@ function checkWinner(grid) {
     }
     return grid.includes('') ? null : 'draw';
 }
-exports.checkWinner = checkWinner;
+
 var scores = {
     'X': -10,
     'O': 10,

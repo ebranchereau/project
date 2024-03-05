@@ -1,10 +1,11 @@
 "use strict";
 export{};
+
+// Variable declarations
 const divs = document.querySelectorAll('.grid-item');
 const moveButton = document.getElementById('moveButton')!;
 const playAgainButton = document.getElementById('playAgain')!;
 const title = document.getElementById('title')!;
-
 let moveMode = 0; // 0 for random move, 1 for best move
 let turn: boolean = true;
 let clickCount: number = 0;
@@ -12,22 +13,29 @@ let winnerValue: string | null = null;
 const text: [string, string] = ['X', 'O'];
 let index: number = 0;
 
+// Event listener for toggling move mode between random and best
 moveButton.addEventListener('click', e => {
     moveMode = 1 - moveMode;
     moveButton.innerText = moveMode === 1 ? 'Best' : 'Random';
 });
 
+// Adding event listeners to all grid items
 divs.forEach(function (div) {
     div.addEventListener('click', classTogglerComputer);
 });
 
+// Event listener for play again button
 playAgainButton.addEventListener('click', e => {
     resetGame();
 });
 
+/**
+ * Function to handle the click event on grid items
+ */
 function classTogglerComputer(this: any) {
-    
+    // If the clicked cell is empty and there's no winner yet, and it's player's turn
     if (this.textContent === "" && winnerValue === null && turn) {
+        // Mark the cell with 'X' for player
         this.textContent = 'X';
         index = 1 - index;
         clickCount++;
@@ -35,9 +43,9 @@ function classTogglerComputer(this: any) {
     }
 
     const grid = getCurrentGridState();
-
+    // Checking game state for winner or draw
     checkGameState(grid);
-
+    // If there's no winner yet, and it's computer's turn, and not all cells are filled
     if (winnerValue === null && !turn && clickCount !== 9) {
         if (moveMode === 1) {
             bestMove(grid);
@@ -45,10 +53,15 @@ function classTogglerComputer(this: any) {
             randomMove(grid);
         }
     }
-
+    // Checking game state for winner or draw
     checkGameState(grid);
 }
 
+
+/**
+ * Function to make a random move for the computer
+ * @param grid Current state of the grid
+ */
 function randomMove(grid: string[]) {
     let i: number = Math.floor(Math.random() * 9);
     while (grid[i] !== "") {
@@ -59,6 +72,11 @@ function randomMove(grid: string[]) {
     turn = true;
 }
 
+
+/**
+ * Function to make the best move for the computer using the minimax algorithm
+ * @param grid Current state of the grid
+ */
 function bestMove(grid: string[]) {
     let bestScore = -Infinity;
     let move: number | null = null;
@@ -82,6 +100,10 @@ function bestMove(grid: string[]) {
     }
 }
 
+/**
+ * Function to get the current state of the grid from HTML
+ * @returns Current state of the grid
+ */
 function getCurrentGridState(): string[] {
     const grid: string[] = [];
     for (let i = 1; i <= 9; i++) {
@@ -90,6 +112,10 @@ function getCurrentGridState(): string[] {
     return grid;
 }
 
+/**
+ * Function to check the game state for winner or draw
+ * @param grid Current state of the grid
+ */
 function checkGameState(grid: string[]) {
     const result = checkWinner(grid);
     if (result) {
@@ -99,6 +125,9 @@ function checkGameState(grid: string[]) {
     }
 }
 
+/**
+ * Function to reset the game to its initial state
+ */
 function resetGame() {
     divs.forEach(function (div) {
         div.textContent = "";
@@ -109,6 +138,10 @@ function resetGame() {
     title.textContent = "You vs Computer";
 }
 
+/**
+ * Function to end the game and display the result
+ * @param result Result of the game ('X' for player win, 'O' for computer win, 'draw' for draw)
+ */
 function endGame(result: string) {
     winnerValue = result;
     
@@ -125,6 +158,13 @@ function endGame(result: string) {
     title.style.margin = "10px";
 }
 
+/**
+ * Minimax algorithm implementation to determine the best move for the computer
+ * @param grid Current state of the grid
+ * @param depth Depth of recursion
+ * @param isMaximizing Indicates whether it's maximizing player's turn or not
+ * @returns Score of the move
+ */
 function minimax(grid: string[], depth: number, isMaximizing: boolean): number {
     const result = checkWinner(grid);
     if (result !== null) {
@@ -155,6 +195,11 @@ function minimax(grid: string[], depth: number, isMaximizing: boolean): number {
     }
 }
 
+/**
+ * Function to check for a winner in the current grid
+ * @param grid Current state of the grid
+ * @returns Winner ('X' or 'O') or 'draw' if the game is drawn, null otherwise
+ */
 export function checkWinner(grid: string[]): string | null {
     for (let i = 0; i < WINNING_COMBINATIONS.length; i++) {
         const [a, b, c] = WINNING_COMBINATIONS[i];
