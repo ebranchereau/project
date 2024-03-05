@@ -6,6 +6,7 @@ const divs = document.querySelectorAll('.grid-item');
 const moveButton = document.getElementById('moveButton')!;
 const playAgainButton = document.getElementById('playAgain')!;
 const title = document.getElementById('title')!;
+
 let moveMode = 0; // 0 for random move, 1 for best move
 let turn: boolean = true;
 let clickCount: number = 0;
