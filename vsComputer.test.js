@@ -1,3 +1,5 @@
+/** * @jest-environment jsdom */
+testEnvironment: "jsdom"
 const { checkWinner, minimax } = require('./pass\&play.js'); 
 
 describe('checkWinner function', () => {
