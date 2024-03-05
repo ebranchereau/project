@@ -29,17 +29,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-/*moveButton.addEventListener('click', () => { //function(e)
-    moveMode = 1 - moveMode;
-    moveButton.innerText = moveMode === 1 ? 'Best' : 'Random';
-});*/
-
-/*divs.forEach(function(div) {
-    div.addEventListener('click', classTogglerComputer);
-});*/
-
-//playAgainButton.addEventListener('click', resetGame);
-
 function classTogglerComputer() {
     if (this.textContent === "" && winnerValue === null && turn) {
         this.textContent = 'X';
@@ -131,10 +120,6 @@ function endGame(result) {
     title.style.fontSize = "50px";
     title.style.margin = "10px";
 }
-
-//module.exports = {};
-
-//module.exports.minimax = 
 function minimax(grid, depth, isMaximizing) {
     var result = checkWinner(grid);
     if (result !== null) {
@@ -165,7 +150,6 @@ function minimax(grid, depth, isMaximizing) {
         return bestScore;
     }
 }
-//module.exports.checkWinner = 
 function checkWinner(grid) {
     for (var i = 0; i < WINNING_COMBINATIONS.length; i++) {
         var _a = WINNING_COMBINATIONS[i], a = _a[0], b = _a[1], c = _a[2];
@@ -186,6 +170,5 @@ var WINNING_COMBINATIONS = [
     [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
     [0, 4, 8], [2, 4, 6] // Diagonals
 ];
-
 
 module.exports = { minimax: minimax, checkWinner: checkWinner };
