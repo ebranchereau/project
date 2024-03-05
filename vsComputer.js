@@ -1,9 +1,8 @@
 "use strict";
-var divs = document.querySelectorAll('.grid-item');
-
-const moveButton = document.getElementById('moveButton');
-const playAgainButton = document.getElementById('playAgain');
-const title = document.getElementById('title');
+//const divs = document.querySelectorAll('.grid-item');
+//const moveButton = document.getElementById('moveButton');
+//const playAgainButton = document.getElementById('playAgain');
+//const title = document.getElementById('title');
 
 var moveMode = 0; // 0 for random move, 1 for best move
 var turn = true;
@@ -12,18 +11,34 @@ var winnerValue = null;
 var text = ['X', 'O'];
 var index = 0;
 
-moveButton?.addEventListener('click', function (e) {
+document.addEventListener('DOMContentLoaded', function () {
+    var playAgainButton = document.getElementById('playAgain');
+    playAgainButton.addEventListener('click', function (e) {
+        resetGame();
+    });
+
+    var moveButton = document.getElementById('moveButton');
+    moveButton.addEventListener('click', () => { //function(e)
+        moveMode = 1 - moveMode;
+        moveButton.innerText = moveMode === 1 ? 'Best' : 'Random';
+    });
+
+    var divs = document.querySelectorAll('.grid-item');
+    divs.forEach(function(div) {
+        div.addEventListener('click', classTogglerComputer);
+    });
+});
+
+/*moveButton.addEventListener('click', () => { //function(e)
     moveMode = 1 - moveMode;
     moveButton.innerText = moveMode === 1 ? 'Best' : 'Random';
-});
+});*/
 
-divs.forEach(function(div) {
+/*divs.forEach(function(div) {
     div.addEventListener('click', classTogglerComputer);
-});
+});*/
 
-playAgainButton.addEventListener('click', function(e) {
-    resetGame();
-});
+//playAgainButton.addEventListener('click', resetGame);
 
 function classTogglerComputer() {
     if (this.textContent === "" && winnerValue === null && turn) {
