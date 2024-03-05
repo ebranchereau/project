@@ -165,6 +165,7 @@ function endGame(result: string) {
  * @param depth Depth of recursion
  * @param isMaximizing Indicates whether it's maximizing player's turn or not
  * @returns Score of the move
+ * @reference https://medium.com/@ezhillragesh/building-a-smart-tic-tac-toe-ai-the-minimax-approach-7b2351a6d6b5
  */
 function minimax(grid: string[], depth: number, isMaximizing: boolean): number {
     const result = checkWinner(grid);
