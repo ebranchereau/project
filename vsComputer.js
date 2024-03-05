@@ -1,8 +1,4 @@
 "use strict";
-//const divs = document.querySelectorAll('.grid-item');
-//const moveButton = document.getElementById('moveButton');
-//const playAgainButton = document.getElementById('playAgain');
-//const title = document.getElementById('title');
 
 var moveMode = 0; // 0 for random move, 1 for best move
 var turn = true;
@@ -171,4 +167,6 @@ var WINNING_COMBINATIONS = [
     [0, 4, 8], [2, 4, 6] // Diagonals
 ];
 
-module.exports = { minimax: minimax, checkWinner: checkWinner };
+module.exports = { minimax: minimax, 
+    checkWinner: checkWinner,
+    checkGameState: checkGameState };

@@ -47,3 +47,10 @@ describe('minimax function', () => {
     expect(funcs.minimax(grid, 0, true)).toBe(0);
   });
 });
+
+describe('checkGameState function', () => {
+  test('should return undefined as game is still ongoing', () => {
+    const grid = ['X', 'X', '', 'O', 'O', '', '', '', ''];
+    expect(funcs.checkGameState(grid)).toBeUndefined();
+  });
+});
